@@ -1,0 +1,144 @@
+object MapsSolutions {
+
+  def keyAndValueMaps(): Int = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "IA" -> "Iowa")
+    myMap.size // Answer: 4
+  }
+
+  def distinctPairingsMaps(): Int = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "MI" -> "Michigan")
+    myMap.size // Answer: 3 (Duplicates are removed)
+  }
+
+  def easilyAddedMaps(): Boolean = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "MI" -> "Michigan")
+    val aNewMap = myMap + ("IL" -> "Illinois")
+    aNewMap.contains("IL") // Answer: true
+  }
+
+  def canBeIteratedMaps(): (Int, String, String) = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "MI" -> "Michigan")
+
+    val mapValues = myMap.values
+    val firstValue = mapValues.head
+    val lastValue = mapValues.last
+
+    (mapValues.size, firstValue, lastValue)
+    // Answers:
+    // - Size: 4
+    // - First Value: Michigan or Ohio (order not guaranteed)
+    // - Last Value: Iowa or Wisconsin (order not guaranteed)
+  }
+
+  def mayBeAccessedMaps(): (String, String) = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "IA" -> "Iowa")
+    (myMap("MI"), myMap("IA"))
+    // Answers:
+    // - MI: Michigan
+    // - IA: Iowa
+  }
+
+  def duplicatedKeyInsertionMaps(): (Int, String) = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "MI" -> "Meechigan")
+    val mapValues = myMap.values
+    (mapValues.size, myMap("MI"))
+    // Answers:
+    // - Size: 4
+    // - MI: Meechigan (last inserted value is retained)
+  }
+
+  def mixedTypeKeysMaps(): (String, String) = {
+    val myMap = Map("Ann Arbor" -> "MI", 49931 -> "MI")
+    (myMap("Ann Arbor"), myMap(49931))
+    // Answers:
+    // - Ann Arbor: MI
+    // - 49931: MI
+  }
+
+  def defaultValuesMayBeProvidedMaps(): (String, String) = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "IA" -> "Iowa")
+
+    val value1 = try {
+      myMap("TX")
+    } catch {
+      case _: NoSuchElementException => "missing data"
+    }
+
+    val myMap2 = myMap withDefaultValue "missing data"
+    val value2 = myMap2("TX")
+
+    (value1, value2)
+    // Answers:
+    // - Value1: missing data (NoSuchElementException caught)
+    // - Value2: missing data (default value)
+  }
+
+  def easilyRemovedMaps(): (Boolean, Boolean) = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "IA" -> "Iowa")
+    val aNewMap = myMap - "MI"
+    (!aNewMap.contains("MI"), myMap.contains("MI"))
+    // Answers:
+    // - MI removed: false
+    // - MI still in original: true
+  }
+
+  def removedInMultipleMaps(): (Boolean, Boolean, Boolean, Int, Int) = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "IA" -> "Iowa")
+    val aNewMap = myMap -- List("MI", "OH")
+
+    (!aNewMap.contains("MI"), myMap.contains("MI"), aNewMap.contains("WI"), aNewMap.size, myMap.size)
+    // Answers:
+    // - MI not in updated: false
+    // - MI still in original: true
+    // - WI not in updated: false
+    // - Updated size: 2
+    // - Original size: 4
+  }
+
+  def attemptedRemovalMaps(): Boolean = {
+    val myMap = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "IA" -> "Iowa")
+    val aNewMap = myMap - "MN"
+    aNewMap.equals(myMap) // Answer: true
+  }
+
+  def orderIndependentMaps(): Boolean = {
+    val myMap1 = Map("MI" -> "Michigan", "OH" -> "Ohio", "WI" -> "Wisconsin", "IA" -> "Iowa")
+    val myMap2 = Map("WI" -> "Wisconsin", "MI" -> "Michigan", "IA" -> "Iowa", "OH" -> "Ohio")
+    myMap1 == myMap2 // Answer: true
+  }
+
+  def main(args: Array[String]): Unit = {
+    println("keyAndValueMaps: " + keyAndValueMaps()) // Output: 4
+    println("distinctPairingsMaps: " + distinctPairingsMaps()) // Output: 3
+    println("easilyAddedMaps: " + easilyAddedMaps()) // Output: true
+    val (size, firstValue, lastValue) = canBeIteratedMaps()
+    println("canBeIteratedMaps size: " + size) // Output: 4
+    println("canBeIteratedMaps firstValue: " + firstValue) // Output: Michigan or Ohio (order not guaranteed)
+    println("canBeIteratedMaps lastValue: " + lastValue) // Output: Iowa or Wisconsin (order not guaranteed)
+    val (miState, iaState) = mayBeAccessedMaps()
+    println("mayBeAccessedMaps MI state: " + miState) // Output: Michigan
+    println("mayBeAccessedMaps IA state: " + iaState) // Output: Iowa
+    val (size2, miValue) = duplicatedKeyInsertionMaps()
+    println("duplicatedKeyInsertionMaps size: " + size2) // Output: 4
+    println("duplicatedKeyInsertionMaps MI value: " + miValue) // Output: Meechigan
+    val (strValue, intValue) = mixedTypeKeysMaps()
+    println("mixedTypeKeysMaps string value: " + strValue) // Output: MI
+    println("mixedTypeKeysMaps int value: " + intValue) // Output: MI
+    val (default1, default2) = defaultValuesMayBeProvidedMaps()
+    println("defaultValuesMayBeProvidedMaps value1: " + default1) // Output: missing data
+    println("defaultValuesMayBeProvidedMaps value2: " + default2) // Output: missing data
+    val (removed1, removed2) = easilyRemovedMaps()
+    println("easilyRemovedMaps MI removed: " + removed1) // Output: false
+    println("easilyRemovedMaps MI still in original: " + removed2) // Output: true
+    val (notInUpdated, stillInOriginal, notInUpdated2, newSize, originalSize) = removedInMultipleMaps()
+    println("removedInMultipleMaps MI not in updated: " + notInUpdated) // Output: false
+    println("removedInMultipleMaps MI still in original: " + stillInOriginal) // Output: true
+    println("removedInMultipleMaps WI not in updated: " + notInUpdated2) // Output: false
+    println("removedInMultipleMaps updated size: " + newSize) // Output: 2
+    println("removedInMultipleMaps original size: " + originalSize) // Output: 4
+    val attemptedRemoval = attemptedRemovalMaps()
+    println("attemptedRemovalMaps: " + attemptedRemoval) // Output: true
+    val orderIndependent = orderIndependentMaps()
+    println("orderIndependentMaps: " + orderIndependent) // Output: true
+  }
+}
